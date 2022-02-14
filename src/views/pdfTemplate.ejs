@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link href= "/public/assets/styles.css" rel="stylesheet" type="text/css" />
+    <style>
+        body{
+            padding: 30px;
+        }
+        h1,h2{text-align: center;}
+    </style>
+    <title>ExpressJS TypeScript starter template</title>
+</head>
+
+<body>
+
+    <h1>RAPPORT INTEMPERIES</h1>
+    <br><br>
+    <p>Date:    <%= data.date %></p>
+    <br><br>
+    <p>Certification réalisée sur station météo réglementaire LUFFT WS700 certifié OMM</p>
+    
+    <p>Adresse : XXXXXXXX</p>
+    <p>Numéro de rapport N° = XX XX XXX date/ID STATION/XXXXXX</p>
+    
+    <p>AUTEURS :
+        Riadh SAID
+        Nicolas MOUCHON
+        </p>
+        <br><br>
+        <p>Bonjour,
+            Vous trouverez ci-dessous les données pour votre certificat d’intempérie (s) :
+            Ce certificat est valable selon les normes et lois suivantes :
+            </p>
+
+            <p>LOIS 
+                Code du travail, articles L. 5424-8 et L.5424-6 
+                Cahier des clauses administratives Article 19.2.3.
+                </p>
+                <p>NORMES  
+                    NF P 03-001, seuil de calcul d’exposition aux intempéries
+                    Horodatage des données selon la norme ISO 8601 
+                    
+                </p>
+                <br><br>
+
+                <h2>RAPPORT</h2>
+
+                <h3>Témpératures</h3>
+
+                <h3>Vents</h3>
+
+                <h3>Pluviométrie</h3>
+
+                <p>Fait le xx xxxx</p>
+
+
+    <% if (data) { %>
+        <h2>
+            <%= data.date %>
+        </h2>
+        <% } %>
+
+</body>
+
+</html>
