@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -28,7 +32,8 @@ const bodyParser = __importStar(require("body-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const router_1 = __importDefault(require("./router"));
 const cors_1 = __importDefault(require("cors"));
-const path_1 = __importDefault(require("path"));
+const dotenv = __importStar(require("dotenv"));
+dotenv.config(); // Load the environment variables
 exports.app = (0, express_1.default)();
 // Custom error handler
 function errorHandler(err, req, res, next) {
@@ -39,9 +44,6 @@ function errorHandler(err, req, res, next) {
 function defaultRoute(req, res, next) {
     res.sendStatus(404);
 }
-exports.app.set("views", path_1.default.join(__dirname, "views"));
-exports.app.set("view engine", "ejs");
-exports.app.use(bodyParser.json());
 exports.app.use(bodyParser.urlencoded({ extended: false }));
 exports.app.use((0, morgan_1.default)('tiny'));
 exports.app.use((0, cors_1.default)());

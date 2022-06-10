@@ -5,8 +5,9 @@ import morgan from 'morgan'
 import router from './router'
 import cors from 'cors'
 import path from 'path'
+import * as dotenv from 'dotenv'
 
-
+dotenv.config() // Load the environment variables
 export const app = express()
 
 // Custom error handler
@@ -19,9 +20,8 @@ function errorHandler(err: Error, req: Request, res: Response, next: NextFunctio
 function defaultRoute(req: Request, res: Response, next: NextFunction) {
   res.sendStatus(404)
 }
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
-app.use('/public', express.static('public'));
+
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('tiny'))

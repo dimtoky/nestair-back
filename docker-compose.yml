@@ -1,0 +1,26 @@
+# docker-compose.yml
+
+version: "3.9"
+services:
+ maintenance_api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - '3000:3000'   
+ postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports: 
+      - '6432:5432'
+    volumes:
+      - maintenance-db:/var/lib/postgresql/data
+
+ 
+        
+volumes:
+  maintenance-db:
