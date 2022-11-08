@@ -8,36 +8,39 @@ datasource db {
 }
 
 model Users {
-  id        Int      @id @default(autoincrement())
-  username  String?  @db.VarChar(255)
-  password  String?  @db.VarChar(255)
-  email     String?  @db.VarChar(255)
-  createdAt DateTime @db.Timestamptz(6)
-  updatedAt DateTime @db.Timestamptz(6)
-  incidents Incidents[]
-
+  id        Int       @id @default(autoincrement())
+  username  String?   @db.VarChar(255)
+  password  String?   @db.VarChar(255)
+  email     String?   @db.VarChar(255)
+  role      Int
+  status    Int
+  createdAt DateTime  @db.Timestamptz(6)
+  updatedAt DateTime  @db.Timestamptz(6)
+  captors   Captors[]
 }
 
-model Incidents {
+model Captors {
   id          Int       @id @default(autoincrement())
   title       String?   @db.VarChar(255)
   description String?   @db.VarChar(255)
   status      Int
-  priority    Int
-  dueDate     DateTime
-  pictures    Picture[]
-  assignedTo  Users    @relation(fields: [userId], references: [id])
+  serial      Int
+  alerts      Alerts[]
+  owner       Users     @relation(fields: [userId], references: [id])
   createdAt   DateTime
   updatedAt   DateTime
   closedAt    DateTime?
-  userId      Int      
+  userId      Int
 }
 
-model Picture {
-  id         Int       @id @default(autoincrement())
-  url        String?   @db.VarChar(255)
-  createdAt  DateTime
-  updatedAt  DateTime
-  incident   Incidents @relation(fields: [incidentId], references: [id])
-  incidentId Int
+model Alerts {
+  id        Int       @id @default(autoincrement())
+  startDate DateTime?
+  endDate   DateTime?
+  avgValue  String?   @db.VarChar(255)
+  maxValue  String?   @db.VarChar(255)
+  createdAt DateTime
+  updatedAt DateTime
+  captors   Captors   @relation(fields: [captorsId], references: [id])
+  captorsId Int
 }

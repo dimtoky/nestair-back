@@ -44,6 +44,8 @@ function errorHandler(err, req, res, next) {
 function defaultRoute(req, res, next) {
     res.sendStatus(404);
 }
+exports.app.use(express_1.default.static(__dirname + '/public'));
+exports.app.use(bodyParser.json());
 exports.app.use(bodyParser.urlencoded({ extended: false }));
 exports.app.use((0, morgan_1.default)('tiny'));
 exports.app.use((0, cors_1.default)());

@@ -8,6 +8,5 @@ const user_1 = require("./user");
 const authRouter = express_1.default.Router();
 authRouter.post('/register', user_1.createUser);
 authRouter.post('/login', user_1.loginUser);
-// router.use('/helloWorld', createUser) // use routes from hello world component
 exports.default = authRouter;
 //# sourceMappingURL=authRouter.js.map

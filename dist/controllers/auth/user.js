@@ -40,24 +40,37 @@ const prisma = new client_1.PrismaClient();
 const saltRounds = 10;
 function createUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { email, password } = req.body;
+        const { email, password, username } = req.body;
         console.log(req.body);
-        if (!email || !password) {
+        if (!email) {
             return res.status(400).json({
-                message: 'Please provide email and password'
+                message: 'Please provide an email'
+            });
+        }
+        if (!password) {
+            return res.status(400).json({
+                message: 'Please provide a password'
+            });
+        }
+        if (!username) {
+            return res.status(400).json({
+                message: 'Please provide a username'
             });
         }
         const salt = yield bcrypt.genSalt(saltRounds);
         const hash = yield bcrypt.hash(password, salt);
         const user = yield prisma.users.create({
             data: {
-                email: email,
+                email,
                 password: hash,
+                username,
                 createdAt: new Date(),
-                updatedAt: new Date()
+                updatedAt: new Date(),
+                role: 2,
+                status: 1
             }
         });
-        res.json(user);
+        res.status(200).json(user);
     });
 }
 exports.createUser = createUser;
@@ -71,7 +84,7 @@ function loginUser(req, res) {
         }
         const user = yield prisma.users.findFirst({
             where: {
-                email: email
+                email
             }
         });
         if (!user) {
@@ -82,7 +95,7 @@ function loginUser(req, res) {
             return res.status(401).json({ error: 'Invalid password' });
         }
         const token = jwt.sign({ userId: user.id }, process.env.SECRETKEY || 'JWT_SECRET', { expiresIn: '1h' });
-        res.json({ token });
+        res.status(200).json({ token });
     });
 }
 exports.loginUser = loginUser;

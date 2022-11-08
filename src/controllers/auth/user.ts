@@ -5,13 +5,24 @@ const prisma = new PrismaClient()
 const saltRounds = 10;
 
 
+
 export async function createUser(req: any, res: any) {
-    const { email, password } = req.body;
+    const { email, password, username } = req.body;
     console.log(req.body);
-    
-    if (!email || !password) {
+
+    if (!email ) {
         return res.status(400).json({
-            message: 'Please provide email and password'
+            message: 'Please provide an email'
+        });
+    }
+    if (!password) {
+        return res.status(400).json({
+            message: 'Please provide a password'
+        });
+    }
+    if (!username) {
+        return res.status(400).json({
+            message: 'Please provide a username'
         });
     }
 
@@ -20,13 +31,16 @@ export async function createUser(req: any, res: any) {
 
     const user = await prisma.users.create({
         data: {
-            email: email,
+            email,
             password: hash,
+            username,
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
+            role : 2,
+            status: 1
         }
     })
-    res.json(user);
+    res.status(200).json(user);
 
 }
 
@@ -41,7 +55,7 @@ export async function loginUser(req: any, res: any) {
     }
     const user = await prisma.users.findFirst({
         where: {
-            email: email
+            email
         }
     })
     if (!user) {
@@ -52,7 +66,7 @@ export async function loginUser(req: any, res: any) {
         return res.status(401).json({ error: 'Invalid password' })
     }
     const token = jwt.sign({ userId: user.id },  process.env.SECRETKEY || 'JWT_SECRET', { expiresIn: '1h' })
-    res.json({ token })
+    res.status(200).json({ token })
 
 }
 
